@@ -1,5 +1,6 @@
-use crate::geometry::hittable::{HitRecord, Hittable};
-use crate::geometry::ray::Ray;
+use super::hit_record::HitRecord;
+use super::hittable::Hittable;
+use super::ray::Ray;
 
 pub struct HittableList {
     objects: Vec<Box<dyn Hittable>>,

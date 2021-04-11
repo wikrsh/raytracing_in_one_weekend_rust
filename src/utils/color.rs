@@ -1,6 +1,5 @@
+use super::vec3::Vec3;
 use std::io::{self, Write};
-
-use crate::utils::vec3::Vec3;
 
 pub type Color = Vec3;
 
