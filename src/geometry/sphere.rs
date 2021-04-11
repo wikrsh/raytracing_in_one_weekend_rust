@@ -5,14 +5,14 @@ use crate::material::Material;
 use crate::utils::vec3::Vec3;
 use std::rc::Rc;
 
-pub struct Sphere<'a> {
+pub struct Sphere {
     center: Vec3,
     radius: f64,
-    mat: Rc<Box<dyn Material + 'a>>,
+    mat: Rc<Box<dyn Material>>,
 }
 
-impl<'a> Sphere<'a> {
-    pub fn new(center: Vec3, radius: f64, mat: &Rc<Box<dyn Material + 'a>>) -> Self {
+impl Sphere {
+    pub fn new(center: Vec3, radius: f64, mat: &Rc<Box<dyn Material>>) -> Self {
         Self {
             center,
             radius,
@@ -21,7 +21,7 @@ impl<'a> Sphere<'a> {
     }
 }
 
-impl<'a> Hittable for Sphere<'a> {
+impl Hittable for Sphere {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let oc = r.origin().clone() - self.center;
         let a = r.direction().length_squared();
