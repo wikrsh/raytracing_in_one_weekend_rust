@@ -1,4 +1,4 @@
-use crate::geometry::ray::Ray;
+use crate::geometry::Ray;
 use crate::utils::vec3::Vec3;
 
 pub struct Camera {

@@ -1,9 +1,6 @@
 use rand::prelude::random;
 use raytracing_in_one_weekend::camera::Camera;
-use raytracing_in_one_weekend::geometry::hittable::Hittable;
-use raytracing_in_one_weekend::geometry::hittable_list::HittableList;
-use raytracing_in_one_weekend::geometry::ray::Ray;
-use raytracing_in_one_weekend::geometry::sphere::Sphere;
+use raytracing_in_one_weekend::geometry::{Hittable, HittableList, Ray, Sphere};
 use raytracing_in_one_weekend::material::{Lambertian, Material, Metal};
 use raytracing_in_one_weekend::utils::color::{write_color, Color};
 use raytracing_in_one_weekend::utils::vec3::Vec3;
