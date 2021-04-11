@@ -87,6 +87,15 @@ impl Vec3 {
     pub fn unit(&self) -> Self {
         Self { value: self.value } / self.length()
     }
+
+    pub fn near_zero(&self) -> bool {
+        const EPSILON: f64 = 1e-8;
+        (self.x().abs() < EPSILON) && (self.y().abs() < EPSILON) && (self.z().abs() < EPSILON)
+    }
+
+    pub fn reflect(&self, n: &Vec3) -> Self {
+        self.clone() - 2.0 * self.dot(n) * n.clone()
+    }
 }
 
 impl Neg for Vec3 {
@@ -128,6 +137,18 @@ impl Sub for Vec3 {
         let mut value = [0.0; 3];
         for i in 0..3 {
             value[i] = self.value[i] - other.value[i];
+        }
+        Self { value }
+    }
+}
+
+impl Mul<Vec3> for Vec3 {
+    type Output = Self;
+
+    fn mul(self, rhs: Vec3) -> Self {
+        let mut value = [0.0; 3];
+        for i in 0..3 {
+            value[i] = self.value[i] * rhs.value[i];
         }
         Self { value }
     }

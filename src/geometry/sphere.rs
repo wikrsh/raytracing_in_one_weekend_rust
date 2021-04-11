@@ -1,20 +1,27 @@
 use super::hit_record::HitRecord;
 use super::hittable::Hittable;
 use super::ray::Ray;
+use crate::material::Material;
 use crate::utils::vec3::Vec3;
+use std::rc::Rc;
 
-pub struct Sphere {
+pub struct Sphere<'a> {
     center: Vec3,
     radius: f64,
+    mat: Rc<Box<dyn Material + 'a>>,
 }
 
-impl Sphere {
-    pub fn new(center: Vec3, radius: f64) -> Self {
-        Self { center, radius }
+impl<'a> Sphere<'a> {
+    pub fn new(center: Vec3, radius: f64, mat: &Rc<Box<dyn Material + 'a>>) -> Self {
+        Self {
+            center,
+            radius,
+            mat: Rc::clone(mat),
+        }
     }
 }
 
-impl Hittable for Sphere {
+impl<'a> Hittable for Sphere<'a> {
     fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let oc = r.origin().clone() - self.center;
         let a = r.direction().length_squared();
@@ -39,6 +46,6 @@ impl Hittable for Sphere {
         let p = r.at(root);
         let outward_normal = (p - self.center) / self.radius;
 
-        Some(HitRecord::new(p, root, r, &outward_normal))
+        Some(HitRecord::new(p, root, r, &outward_normal, &self.mat))
     }
 }
