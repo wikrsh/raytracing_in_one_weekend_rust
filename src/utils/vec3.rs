@@ -1,3 +1,4 @@
+use rand::{thread_rng, Rng};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub};
 
 #[derive(Copy, Clone, Debug)]
@@ -6,8 +7,42 @@ pub struct Vec3 {
 }
 
 impl Vec3 {
-    pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
-        Vec3 { value: [x, y, z] }
+    pub fn new(x: f64, y: f64, z: f64) -> Self {
+        Self { value: [x, y, z] }
+    }
+
+    pub fn new_random(min: f64, max: f64) -> Self {
+        let mut rng = thread_rng();
+
+        Self {
+            value: [
+                rng.gen_range(min..max),
+                rng.gen_range(min..max),
+                rng.gen_range(min..max),
+            ],
+        }
+    }
+
+    pub fn new_random_in_unit_sphere() -> Self {
+        loop {
+            let p = Self::new_random(-1.0, 1.0);
+            if p.length_squared() < 1.0 {
+                return p;
+            }
+        }
+    }
+
+    pub fn new_random_in_hemisphere(normal: &Self) -> Self {
+        let in_unit_sphere = Self::new_random_in_unit_sphere();
+        if in_unit_sphere.dot(normal) > 0.0 { // In the same hemisphere as the normal
+            in_unit_sphere
+        } else {
+            -in_unit_sphere
+        }
+    }
+
+    pub fn new_random_unit_vector() -> Self {
+        Self::new_random_in_unit_sphere().unit()
     }
 
     pub fn x(&self) -> f64 {

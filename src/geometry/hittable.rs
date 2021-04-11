@@ -1,6 +1,7 @@
 use crate::geometry::ray::Ray;
 use crate::utils::vec3::Vec3;
 
+#[derive(Copy, Clone, Debug)]
 pub struct HitRecord {
     pub p: Vec3,
     pub normal: Vec3,
