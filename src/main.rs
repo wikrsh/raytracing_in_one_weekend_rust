@@ -1,7 +1,7 @@
 use rand::prelude::random;
 use raytracing_in_one_weekend::camera::Camera;
 use raytracing_in_one_weekend::geometry::{Hittable, HittableList, Ray, Sphere};
-use raytracing_in_one_weekend::material::{Lambertian, Material, Metal};
+use raytracing_in_one_weekend::material::{Dielectric, Lambertian, Material, Metal};
 use raytracing_in_one_weekend::utils::color::{write_color, Color};
 use raytracing_in_one_weekend::utils::vec3::Vec3;
 use std::io::{self, BufWriter};
@@ -40,11 +40,10 @@ fn main() -> io::Result<()> {
     let material_ground: Rc<Box<dyn Material>> =
         Rc::new(Box::new(Lambertian::new(Color::new(0.8, 0.8, 0.0))));
     let material_center: Rc<Box<dyn Material>> =
-        Rc::new(Box::new(Lambertian::new(Color::new(0.7, 0.3, 0.3))));
-    let material_left: Rc<Box<dyn Material>> =
-        Rc::new(Box::new(Metal::new(Color::new(0.8, 0.8, 0.8), 0.3)));
+        Rc::new(Box::new(Lambertian::new(Color::new(0.1, 0.2, 0.5))));
+    let material_left: Rc<Box<dyn Material>> = Rc::new(Box::new(Dielectric::new(1.5)));
     let material_right: Rc<Box<dyn Material>> =
-        Rc::new(Box::new(Metal::new(Color::new(0.8, 0.6, 0.2), 1.0)));
+        Rc::new(Box::new(Metal::new(Color::new(0.8, 0.6, 0.2), 0.0)));
 
     world.add(Box::new(Sphere::new(
         Vec3::new(0.0, -100.5, -1.0),
@@ -59,6 +58,11 @@ fn main() -> io::Result<()> {
     world.add(Box::new(Sphere::new(
         Vec3::new(-1.0, 0.0, -1.0),
         0.5,
+        &material_left,
+    )));
+    world.add(Box::new(Sphere::new(
+        Vec3::new(-1.0, 0.0, -1.0),
+        -0.4,
         &material_left,
     )));
     world.add(Box::new(Sphere::new(
