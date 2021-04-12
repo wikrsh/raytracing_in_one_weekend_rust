@@ -35,6 +35,7 @@ fn main() -> io::Result<()> {
     let max_depth = 50;
 
     // World
+
     let mut world = HittableList::new();
 
     let material_ground: Rc<Box<dyn Material>> =
@@ -62,7 +63,7 @@ fn main() -> io::Result<()> {
     )));
     world.add(Box::new(Sphere::new(
         Vec3::new(-1.0, 0.0, -1.0),
-        -0.4,
+        -0.45,
         &material_left,
     )));
     world.add(Box::new(Sphere::new(
@@ -72,7 +73,13 @@ fn main() -> io::Result<()> {
     )));
 
     // Camera
-    let camera = Camera::new();
+    let camera = Camera::new(
+        Vec3::new(-2.0, 2.0, 1.0),
+        Vec3::new(0.0, 0.0, -1.0),
+        Vec3::new(0.0, 1.0, 0.0),
+        20.0,
+        aspect_ratio,
+    );
 
     // Render
     println!("P3");
