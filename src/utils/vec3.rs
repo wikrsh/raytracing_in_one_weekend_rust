@@ -32,6 +32,17 @@ impl Vec3 {
         }
     }
 
+    pub fn new_random_in_unit_disk() -> Self {
+        let mut rng = thread_rng();
+
+        loop {
+            let p = Self::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..1.0), 0.0);
+            if p.length_squared() < 1.0 {
+                return p;
+            }
+        }
+    }
+
     pub fn new_random_in_hemisphere(normal: &Self) -> Self {
         let in_unit_sphere = Self::new_random_in_unit_sphere();
         if in_unit_sphere.dot(normal) > 0.0 {
